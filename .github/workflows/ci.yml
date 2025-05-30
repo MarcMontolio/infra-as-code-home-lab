@@ -6,41 +6,43 @@ on:
   pull_request:
     branches: [ main ]
 
-
 jobs:
   terraform:
+    name: Terraform Format & Validate
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
+      - name: 🧾 Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Terraform
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.0
 
-      - name: Check formatting
+      - name: Terraform fmt (check)
         run: terraform fmt -check
         working-directory: terraform
 
-      - name: Init and validate (no backend)
+      - name: Terraform init & validate
         run: |
           terraform init -backend=false
           terraform validate
         working-directory: terraform
 
-
   ansible:
     name: Ansible Lint & Syntax
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v3
+
       - name: Install Ansible & yamllint
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible yamllint
+
       - name: Ansible syntax check
         run: ansible-playbook ansible/playbook.yml --syntax-check -i ansible/inventory.ini
-      - name: yamllint on playbooks
+
+      - name: yamllint on Ansible files
         run: yamllint -c .yamllint.yml ansible/
