@@ -25,11 +25,3 @@ resource "null_resource" "vms" {
     vm_id = count.index
   }
 }
-
-output "network_cidr" {
-  value = null_resource.network.triggers["cidr"]
-}
-
-output "vm_ids" {
-  value = [for r in null_resource.vms : r.triggers["vm_id"]]
-}
