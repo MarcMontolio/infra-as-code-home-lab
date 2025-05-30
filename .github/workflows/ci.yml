@@ -6,19 +6,26 @@ on:
   pull_request:
     branches: [ main ]
 
+
 jobs:
-  build:
+  terraform:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
         with:
-          python-version: '3.x'
-      - name: Install dependencies & lint
+          terraform_version: 1.4.0
+
+      - name: Check formatting
+        run: terraform fmt -check
+        working-directory: terraform
+
+      - name: Init and validate (no backend)
         run: |
-          pip install -r requirements.txt || true
-          pip install flake8 || true
-          flake8 src/ || true
-      - name: Run tests
-        run: pytest --maxfail=1 --disable-warnings -q || true
+          terraform init -backend=false
+          terraform validate
+        working-directory: terraform
