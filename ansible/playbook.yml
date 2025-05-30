@@ -1,0 +1,5 @@
+- name: Provision Home Lab VMs
+  hosts: home-lab
+  become: true
+  roles:
+    - provision-vm

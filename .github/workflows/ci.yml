@@ -29,3 +29,18 @@ jobs:
           terraform init -backend=false
           terraform validate
         working-directory: terraform
+
+
+  ansible:
+    name: Ansible Lint & Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Ansible & yamllint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible yamllint
+      - name: Ansible syntax check
+        run: ansible-playbook ansible/playbook.yml --syntax-check -i ansible/inventory.ini
+      - name: yamllint on playbooks
+        run: yamllint -c .yamllint.yml ansible/

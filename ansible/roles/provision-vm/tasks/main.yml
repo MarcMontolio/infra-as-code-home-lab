@@ -1,0 +1,16 @@
+- name: Ensure apt cache is up to date
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install Git
+  apt:
+    name: git
+    state: present
+  when: ansible_os_family == 'Debian'
