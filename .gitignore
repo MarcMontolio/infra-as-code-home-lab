@@ -1,18 +1,41 @@
-# Dependencies
-node_modules/
-vendor/
-__pycache__/
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+# Do not commit variable files with sensitive values
+terraform.tfvars
+terraform.tfvars.json
+
+# Ansible
+# (e.g. fact cache, temporary files)
+fact_cache/
+# If you add any local Ansible inventory overrides, ignore them
+inventory_override.ini
 
 # Logs and caches
 *.log
 *.cache
 .DS_Store
 
-# Virtual environments
-.env
+# Python (if you ever test Ansible roles locally in a virtualenv)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 .venv/
 venv/
+.env
 
 # IDE / editor files
 .idea/
 .vscode/
+*.swp
+*~
+
+# Miscellaneous backups
+*.bak
